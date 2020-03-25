@@ -28,19 +28,16 @@ ClockReplacer::~ClockReplacer() = default;
 bool ClockReplacer::Victim(frame_id_t *frame_id) {
     std::lock_guard<std::mutex> guard(clock_mutex);
     while (clock_size>0){
-        if (clock_hand == clock_replacer.size()) {
-            clock_hand = 0;
-        }
         if (clock_replacer[clock_hand].isPin) {
-            clock_hand++;
+            clock_hand = (clock_hand + 1) % clock_replacer.clock_size;
         } else if (clock_replacer[clock_hand].ref) {
             clock_replacer[clock_hand].ref = false;
-            clock_hand++;
+            clock_hand = (clock_hand + 1) % clock_replacer.clock_size;
         } else {
             clock_replacer[clock_hand].ref = true;
             clock_size--;
             *frame_id = clock_hand;
-            clock_hand++;
+            clock_hand = (clock_hand + 1) % clock_replacer.clock_size;
             return true;
         }
     }
