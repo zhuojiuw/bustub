@@ -15,7 +15,7 @@
 namespace bustub {
 
 ClockReplacer::ClockReplacer(size_t num_pages) {
-    ClockItem clock_item = {1, false};
+    ClockItem clock_item = {true, false};
     for (size_t i = 0; i != num_pages; i++) {
         clock_replacer.emplace_back(clock_item);
     }
