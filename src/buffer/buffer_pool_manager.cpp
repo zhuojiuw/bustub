@@ -180,7 +180,7 @@ bool BufferPoolManager::DeletePageImpl(page_id_t page_id) {
 
 void BufferPoolManager::FlushAllPagesImpl() {
   // You can do it!
-  std::scoped_lock bpmscl{latch_};
+  std::lock_guard<std::mutex> guard(latch_);
   for(size_t i = 0; i < pool_size_; i++) {
     FlushPageImpl(pages_[i].page_id_);
   }
